@@ -1,24 +1,23 @@
-package br.com.danielwisky.books.gateways.outputs.mongodb.documents;
+package br.com.danielwisky.books.gateways.inputs.http.resources.response;
 
 import br.com.danielwisky.books.domains.Book;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @NoArgsConstructor
-@Document(collection = "books")
-public class BookDocument {
+@AllArgsConstructor
+public class BookResponse implements Serializable {
 
-  @Id
+  @Serial
+  private static final long serialVersionUID = 1L;
+
   private String id;
-  @Indexed
   private String isbn;
   private String title;
   private String subtitle;
@@ -27,12 +26,10 @@ public class BookDocument {
   private List<String> authors;
   private List<String> images;
   private Integer pageCount;
-  @CreatedDate
   private LocalDateTime createdDate;
-  @LastModifiedDate
   private LocalDateTime lastModifiedDate;
 
-  public BookDocument(final Book book) {
+  public BookResponse(final Book book) {
     this.id = book.getId();
     this.isbn = book.getIsbn();
     this.title = book.getTitle();
@@ -44,21 +41,5 @@ public class BookDocument {
     this.pageCount = book.getPageCount();
     this.createdDate = book.getCreatedDate();
     this.lastModifiedDate = book.getLastModifiedDate();
-  }
-
-  public Book toDomain() {
-    return Book.builder()
-        .id(this.id)
-        .isbn(this.isbn)
-        .title(this.title)
-        .subtitle(this.subtitle)
-        .publisher(this.publisher)
-        .synopsis(this.synopsis)
-        .authors(this.authors)
-        .images(this.images)
-        .pageCount(this.pageCount)
-        .createdDate(this.createdDate)
-        .lastModifiedDate(this.lastModifiedDate)
-        .build();
   }
 }

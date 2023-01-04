@@ -1,4 +1,4 @@
-package br.com.danielwisky.books.configurations;
+package br.com.danielwisky.books.configurations.mongodb;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;

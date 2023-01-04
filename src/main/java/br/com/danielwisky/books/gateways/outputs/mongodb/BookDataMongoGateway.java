@@ -2,6 +2,8 @@ package br.com.danielwisky.books.gateways.outputs.mongodb;
 
 import br.com.danielwisky.books.domains.Book;
 import br.com.danielwisky.books.gateways.outputs.BookDataGateway;
+import br.com.danielwisky.books.gateways.outputs.mongodb.documents.BookDocument;
+import br.com.danielwisky.books.gateways.outputs.mongodb.repositories.BookMongoRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,13 +12,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BookDataMongoGateway implements BookDataGateway {
 
+  private final BookMongoRepository repository;
+
   @Override
-  public Book save(final Book Book) {
-    return null;
+  public Book save(final Book book) {
+    return repository.save(new BookDocument(book)).toDomain();
   }
 
   @Override
   public Optional<Book> findById(final String id) {
-    return Optional.empty();
+    return repository.findById(id).map(BookDocument::toDomain);
   }
 }

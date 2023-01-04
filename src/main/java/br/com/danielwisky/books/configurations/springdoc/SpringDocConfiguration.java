@@ -1,4 +1,4 @@
-package br.com.danielwisky.books.configurations;
+package br.com.danielwisky.books.configurations.springdoc;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

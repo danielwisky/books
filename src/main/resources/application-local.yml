@@ -2,3 +2,30 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/books
+  kafka:
+    topics:
+      fill-book: fill-book-input
+    bootstrap-servers: localhost:9092
+    listener:
+      concurrency: 1
+    consumer:
+      group-id: books
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      auto-offset-reset: earliest
+    producer:
+      retries: 10
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        enable.idempotence: false
+    cloud:
+      openfeign:
+        client:
+          config:
+            default:
+              connectTimeout: 5000
+              readTimeout: 5000
+              loggerLevel: basic

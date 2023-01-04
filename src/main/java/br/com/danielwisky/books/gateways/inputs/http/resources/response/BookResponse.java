@@ -1,5 +1,7 @@
 package br.com.danielwisky.books.gateways.inputs.http.resources.response;
 
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
+
 import br.com.danielwisky.books.domains.Book;
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +26,7 @@ public class BookResponse implements Serializable {
   private String publisher;
   private String synopsis;
   private List<String> authors;
-  private List<String> images;
+  private List<ImageResponse> images;
   private Integer pageCount;
   private LocalDateTime createdDate;
   private LocalDateTime lastModifiedDate;
@@ -37,7 +39,10 @@ public class BookResponse implements Serializable {
     this.publisher = book.getPublisher();
     this.synopsis = book.getSynopsis();
     this.authors = book.getAuthors();
-    this.images = book.getImages();
+    this.images = emptyIfNull(book.getImages())
+        .stream()
+        .map(ImageResponse::new)
+        .toList();
     this.pageCount = book.getPageCount();
     this.createdDate = book.getCreatedDate();
     this.lastModifiedDate = book.getLastModifiedDate();

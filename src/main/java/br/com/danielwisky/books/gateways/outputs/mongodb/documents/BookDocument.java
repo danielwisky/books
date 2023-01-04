@@ -1,5 +1,7 @@
 package br.com.danielwisky.books.gateways.outputs.mongodb.documents;
 
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
+
 import br.com.danielwisky.books.domains.Book;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +27,7 @@ public class BookDocument {
   private String publisher;
   private String synopsis;
   private List<String> authors;
-  private List<String> images;
+  private List<ImageDocument> images;
   private Integer pageCount;
   @CreatedDate
   private LocalDateTime createdDate;
@@ -40,7 +42,10 @@ public class BookDocument {
     this.publisher = book.getPublisher();
     this.synopsis = book.getSynopsis();
     this.authors = book.getAuthors();
-    this.images = book.getImages();
+    this.images = emptyIfNull(book.getImages())
+        .stream()
+        .map(ImageDocument::new)
+        .toList();
     this.pageCount = book.getPageCount();
     this.createdDate = book.getCreatedDate();
     this.lastModifiedDate = book.getLastModifiedDate();
@@ -55,7 +60,10 @@ public class BookDocument {
         .publisher(this.publisher)
         .synopsis(this.synopsis)
         .authors(this.authors)
-        .images(this.images)
+        .images(emptyIfNull(this.images)
+            .stream()
+            .map(ImageDocument::toDomain)
+            .toList())
         .pageCount(this.pageCount)
         .createdDate(this.createdDate)
         .lastModifiedDate(this.lastModifiedDate)

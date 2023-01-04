@@ -1,5 +1,6 @@
 package br.com.danielwisky.books.domains;
 
+import br.com.danielwisky.books.domains.enums.Status;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class Book {
   private String publisher;
   private String synopsis;
   private List<String> authors;
-  private List<String> images;
+  private List<Image> images;
   private Integer pageCount;
   private Status status;
   private String errorMessage;

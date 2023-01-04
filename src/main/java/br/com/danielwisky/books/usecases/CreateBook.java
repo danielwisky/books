@@ -1,6 +1,6 @@
 package br.com.danielwisky.books.usecases;
 
-import static br.com.danielwisky.books.domains.Status.PENDING;
+import static br.com.danielwisky.books.domains.enums.Status.PENDING;
 
 import br.com.danielwisky.books.domains.Book;
 import br.com.danielwisky.books.gateways.outputs.BookAsyncGateway;

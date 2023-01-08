@@ -1,36 +1,35 @@
-package br.com.danielwisky.books.gateways.inputs.http.resources.request;
+package br.com.danielwisky.books.gateways.inputs.kafka.resources;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 import br.com.danielwisky.books.domains.Book;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
-import org.hibernate.validator.constraints.ISBN;
 
 @Data
-public class BookRequest implements Serializable {
+public class BookInputResource implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 1L;
 
-  @ISBN
+  private String id;
   private String isbn;
-  @NotBlank
   private String title;
   private String subtitle;
   private String publisher;
   private String synopsis;
   private List<String> authors;
-  @Valid
-  private List<ImageRequest> images;
+  private List<ImageInputResource> images;
   private Integer pageCount;
+  private LocalDateTime createdDate;
+  private LocalDateTime lastModifiedDate;
 
   public Book toDomain() {
     return Book.builder()
+        .id(this.id)
         .isbn(this.isbn)
         .title(this.title)
         .subtitle(this.subtitle)
@@ -39,9 +38,11 @@ public class BookRequest implements Serializable {
         .authors(this.authors)
         .images(emptyIfNull(this.images)
             .stream()
-            .map(ImageRequest::toDomain)
+            .map(ImageInputResource::toDomain)
             .toList())
         .pageCount(this.pageCount)
+        .createdDate(this.createdDate)
+        .lastModifiedDate(this.lastModifiedDate)
         .build();
   }
 }

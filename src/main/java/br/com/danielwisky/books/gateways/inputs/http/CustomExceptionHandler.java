@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
 
   @ExceptionHandler({MethodArgumentNotValidException.class})
-  public HttpEntity<ErrorResponse> handlerMethodArgumentNotValidException(final MethodArgumentNotValidException ex) {
+  public HttpEntity<ErrorResponse> handlerMethodArgumentNotValidException(
+      final MethodArgumentNotValidException ex) {
     log.debug(ex.getMessage(), ex);
     final var bindingResult = ex.getBindingResult();
     final var fieldErrors = bindingResult.getFieldErrors();

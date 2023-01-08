@@ -1,5 +1,5 @@
 package br.com.danielwisky.books.domains.enums;
 
 public enum Status {
-  ERROR, PENDING, SUCCESS
+  ERROR, NOT_FILLED, PENDING, SUCCESS
 }

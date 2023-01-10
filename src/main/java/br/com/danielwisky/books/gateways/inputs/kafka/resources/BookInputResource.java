@@ -1,8 +1,10 @@
 package br.com.danielwisky.books.gateways.inputs.kafka.resources;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 import br.com.danielwisky.books.domains.Book;
+import br.com.danielwisky.books.domains.enums.Status;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -24,6 +26,8 @@ public class BookInputResource implements Serializable {
   private List<String> authors;
   private List<ImageInputResource> images;
   private Integer pageCount;
+
+  private String status;
   private LocalDateTime createdDate;
   private LocalDateTime lastModifiedDate;
 
@@ -41,6 +45,9 @@ public class BookInputResource implements Serializable {
             .map(ImageInputResource::toDomain)
             .toList())
         .pageCount(this.pageCount)
+        .status(ofNullable(this.status)
+            .map(Status::valueOf)
+            .orElse(null))
         .createdDate(this.createdDate)
         .lastModifiedDate(this.lastModifiedDate)
         .build();

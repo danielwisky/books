@@ -1,8 +1,11 @@
 package br.com.danielwisky.books.gateways.inputs.http.resources.response;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 import br.com.danielwisky.books.domains.Book;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(Include.NON_EMPTY)
 public class BookResponse implements Serializable {
 
   @Serial
@@ -28,6 +32,8 @@ public class BookResponse implements Serializable {
   private List<String> authors;
   private List<ImageResponse> images;
   private Integer pageCount;
+  private String status;
+  private String errorMessage;
   private LocalDateTime createdDate;
   private LocalDateTime lastModifiedDate;
 
@@ -44,6 +50,10 @@ public class BookResponse implements Serializable {
         .map(ImageResponse::new)
         .toList();
     this.pageCount = book.getPageCount();
+    this.status = ofNullable(book.getStatus())
+        .map(Enum::name)
+        .orElse(null);
+    this.errorMessage = book.getErrorMessage();
     this.createdDate = book.getCreatedDate();
     this.lastModifiedDate = book.getLastModifiedDate();
   }

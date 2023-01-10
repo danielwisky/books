@@ -1,8 +1,10 @@
 package br.com.danielwisky.books.gateways.outputs.mongodb.documents;
 
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 import br.com.danielwisky.books.domains.Book;
+import br.com.danielwisky.books.domains.enums.Status;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
@@ -29,6 +31,8 @@ public class BookDocument {
   private List<String> authors;
   private List<ImageDocument> images;
   private Integer pageCount;
+  private String status;
+  private String errorMessage;
   @CreatedDate
   private LocalDateTime createdDate;
   @LastModifiedDate
@@ -47,6 +51,10 @@ public class BookDocument {
         .map(ImageDocument::new)
         .toList();
     this.pageCount = book.getPageCount();
+    this.status = ofNullable(book.getStatus())
+        .map(Enum::name)
+        .orElse(null);
+    this.errorMessage = book.getErrorMessage();
     this.createdDate = book.getCreatedDate();
     this.lastModifiedDate = book.getLastModifiedDate();
   }
@@ -65,6 +73,9 @@ public class BookDocument {
             .map(ImageDocument::toDomain)
             .toList())
         .pageCount(this.pageCount)
+        .status(ofNullable(this.status)
+            .map(Status::valueOf)
+            .orElse(null))
         .createdDate(this.createdDate)
         .lastModifiedDate(this.lastModifiedDate)
         .build();

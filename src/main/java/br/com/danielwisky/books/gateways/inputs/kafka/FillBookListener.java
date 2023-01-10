@@ -16,7 +16,7 @@ public class FillBookListener {
 
   @KafkaListener(topics = "${spring.kafka.topics.fill-book}")
   public void receive(final String message) {
-    final BookInputResource resource = jsonUtils.toObject(message, BookInputResource.class);
+    final var resource = jsonUtils.toObject(message, BookInputResource.class);
     fillBook.execute(resource.toDomain());
   }
 }

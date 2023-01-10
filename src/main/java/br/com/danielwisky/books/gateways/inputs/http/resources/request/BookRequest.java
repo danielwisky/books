@@ -7,7 +7,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
@@ -19,7 +18,6 @@ public class BookRequest implements Serializable {
 
   @ISBN
   private String isbn;
-  @NotBlank
   private String title;
   private String subtitle;
   private String publisher;

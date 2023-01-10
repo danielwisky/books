@@ -20,7 +20,7 @@ public class CreateBook {
   public Book execute(final Book book) {
     log.debug("create book: {}", book);
     book.setStatus(PENDING);
-    final Book bookCreated = bookDataGateway.save(book);
+    final var bookCreated = bookDataGateway.save(book);
     bookAsyncGateway.sendToFill(bookCreated);
     return bookCreated;
   }

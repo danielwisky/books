@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "brasil-api", url = "${external-api.book}")
+@FeignClient(name = "brasil-api", url = "${external-api.book}", configuration = BrasilApiConfiguration.class)
 public interface BrasilApiClient {
 
   @GetMapping("/isbn/v1/{isbn}")

@@ -1,5 +1,7 @@
 package br.com.danielwisky.books.gateways.inputs.http.resources.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Page;
 
 @Data
 @NoArgsConstructor
+@JsonInclude(Include.NON_EMPTY)
 public class ListResponse<T extends Serializable> implements Serializable {
 
   @Serial

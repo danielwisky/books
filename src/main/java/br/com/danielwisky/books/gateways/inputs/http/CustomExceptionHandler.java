@@ -6,7 +6,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import br.com.danielwisky.books.domains.exceptions.i18n.I18NRuntimeException;
 import br.com.danielwisky.books.gateways.inputs.http.resources.response.ErrorResponse;
+import br.com.danielwisky.books.utils.MessageUtils;
 import java.util.List;
 import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class CustomExceptionHandler {
 
+  private final MessageUtils messageUtils;
+
   @ExceptionHandler({MethodArgumentNotValidException.class})
   public HttpEntity<ErrorResponse> handlerMethodArgumentNotValidException(
       final MethodArgumentNotValidException ex) {
@@ -34,6 +38,13 @@ public class CustomExceptionHandler {
     final var responseHeaders = new HttpHeaders();
     responseHeaders.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);
     return new ResponseEntity<>(message, responseHeaders, BAD_REQUEST);
+  }
+
+  @ExceptionHandler(I18NRuntimeException.class)
+  public HttpEntity<ErrorResponse> handlerI18NRuntimeException(final I18NRuntimeException ex) {
+    log.debug(ex.getMessage(), ex);
+    final var message = messageUtils.getMessage(ex.getKey(), ex.getParams());
+    return new ResponseEntity<>(createResponse(message), buildHttpHeader(), ex.getHttpStatus());
   }
 
   @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class})

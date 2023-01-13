@@ -22,7 +22,7 @@ public class BookDocument {
 
   @Id
   private String id;
-  @Indexed
+  @Indexed(unique = true, sparse = true)
   private String isbn;
   private String title;
   private String subtitle;

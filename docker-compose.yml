@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: books/api
+    container_name: "api-books"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - kafka
+    links:
+      - mongodb
+      - kafka
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb-books"
+    ports:
+      - "27017:27017"
+  kafka:
+    image: spotify/kafka:latest
+    container_name: "kafka-books"
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      - ADVERTISED_HOST=kafka
+      - ADVERTISED_PORT=9092
